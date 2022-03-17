@@ -1,10 +1,34 @@
 from django.shortcuts import render
-from django.http import HttpResponse, Http404,HttpResponseRedirect
-from django.shortcuts import render,get_object_or_404
+from django.http import HttpResponse, Http404, HttpResponseRedirect
+from django.shortcuts import render, get_object_or_404
 from django.urls import reverse
+from django.views import generic
 # import datetime
 # Create your views here.
 from .models import Question, Choices
+
+"""
+The views were initially written as function based views- but later updated to 
+class based views.
+"""
+
+
+class IndexView(generic.ListView):
+    template_name = "poll/index.html"
+    context_object_name = 'latest_question_list'
+
+    def get_queryset(self):
+        return Question.objects.order_by('-pub_date')[:5]
+
+
+class DetailView(generic.DetailView):
+    model = Question
+    template_name = "poll/detail.html"
+
+
+class ResultsView(generic.DetailView):
+    model = Question
+    template_name = 'poll/results.html'
 
 
 def index(request):
@@ -25,7 +49,7 @@ def detail(request, question_id):
     # except Question.DoesNotExist:
     #     raise Http404("Question does not exist")
     question = get_object_or_404(Question, pk=question_id)
-    #the above is a shortcut....
+    # the above is a shortcut....
     context = {'question': question}
     return render(request, 'poll/detail.html', context)
 

@@ -1,0 +1,9 @@
+body{
+color:powderblue;
+background: url("images/background.png") no-repeat;
+background-size:cover;
+}
+
+li a{
+color:grey;
+}
