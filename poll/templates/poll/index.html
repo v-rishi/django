@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Index Page</title>
+</head>
+<body>
+<h1>Welcome to the Polls Homepage</h1>
+{%if latest_question_list %}
+<ul>
+{% for q in latest_question_list %}
+<li><a href="{% url 'poll:detail' q.id %}">{{q.question_text}}</a></li>
+{% endfor %}
+</ul>
+{% else %}
+<p>No Questions in the polls...</p>
+{% endif %}
+
+</body>
+</html>
